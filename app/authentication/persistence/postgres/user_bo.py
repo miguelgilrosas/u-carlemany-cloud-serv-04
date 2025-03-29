@@ -14,12 +14,13 @@ class UserBOPostgresPersistenceService(UserBOInterface):
         if len(users) > 0:
             raise UsernameAlreadyTakenException
 
-        new_user = await UserDB.create(
+        new_user = await UserDB(
             username=user.username,
             password=user.password,
             mail=user.mail,
             year_of_birth=user.year_of_birth
         )
+        await new_user.save()
 
         user.id = new_user.id
 

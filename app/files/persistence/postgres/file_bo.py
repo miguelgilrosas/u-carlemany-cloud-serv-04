@@ -24,13 +24,14 @@ class FileBOPostgresPersistenceService(FileBOInterface):
         return result
 
     async def post_file(self, file: FileBO) -> FileBO:
-        new_file = await FileDB.create(
+        new_file = await FileDB(
             filename=file.filename,
             path=file.path,
             owner=file.owner,
             desc=file.desc,
             number_of_pages=file.number_of_pages
         )
+        await new_file.save()
         file.id = new_file.id
         return file
 
