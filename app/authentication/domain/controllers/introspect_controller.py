@@ -11,10 +11,8 @@ class IntrospectController:
         self.token_persistence_service = token_persistence_service
 
     async def __call__(self, token: str) -> Optional[UserBO]:
-        # user_id = await self.token_persistence_service.get_user_id_by_token(token)
         user_id = self.token_persistence_service.get_user_id_by_token(token)
         if user_id is None:
             return None
 
-        # return await self.user_persistence_service.get_user_by_id(user_id=user_id)
-        return self.user_persistence_service.get_user_by_id(user_id=user_id)
+        return await self.user_persistence_service.get_user_by_id(user_id=user_id)

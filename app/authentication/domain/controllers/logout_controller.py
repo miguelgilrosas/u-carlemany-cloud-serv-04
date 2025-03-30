@@ -8,7 +8,6 @@ class LogoutController:
 
     async def __call__(self, token: str):
         try:
-            # await self.token_persistence_service.delete_token(token=token)
             self.token_persistence_service.delete_token(token=token)
 
         except BadTokenException:

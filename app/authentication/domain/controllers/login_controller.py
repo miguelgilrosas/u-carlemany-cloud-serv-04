@@ -11,8 +11,7 @@ class LoginController:
         self.token_persistence_service = token_persistence_service
 
     async def __call__(self, username: str, password: str) -> str:
-        # user = await self.user_persistence_service.get_user_by_username(username=username)
-        user = self.user_persistence_service.get_user_by_username(username=username)
+        user = await self.user_persistence_service.get_user_by_username(username=username)
         if not user:
             raise UsernameNotFoundException
 
@@ -21,8 +20,8 @@ class LoginController:
         hashed_stored_password = user.password
 
         if hashed_password == hashed_stored_password:
-            # token = await self.token_persistence_service.create_token(user_id=user.id)
             token = self.token_persistence_service.create_token(user_id=user.id)
+            # token = self.token_persistence_service.create_token(user_id=user.id)
 
             return token
 

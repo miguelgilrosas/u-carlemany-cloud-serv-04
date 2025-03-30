@@ -1,9 +1,4 @@
 -- upgrade --
-CREATE TABLE IF NOT EXISTS "tokendb" (
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "token" VARCHAR(75) NOT NULL,
-    "user_id" INT NOT NULL
-);
 CREATE TABLE IF NOT EXISTS "userdb" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "username" VARCHAR(75) NOT NULL,
