@@ -1,15 +1,18 @@
 from hashlib import sha256
 
 from app.authentication.domain.persistences.exceptions import WrongPasswordException, UsernameNotFoundException
+from app.authentication.domain.persistences.token_interface import TokenInterface
 from app.authentication.domain.persistences.user_bo_interface import UserBOInterface
 
 
 class LoginController:
-    def __init__(self, user_persistence_service: UserBOInterface):
+    def __init__(self, user_persistence_service: UserBOInterface, token_persistence_service: TokenInterface):
         self.user_persistence_service = user_persistence_service
+        self.token_persistence_service = token_persistence_service
 
     async def __call__(self, username: str, password: str) -> str:
-        user = await self.user_persistence_service.get_user_by_username(username=username)
+        # user = await self.user_persistence_service.get_user_by_username(username=username)
+        user = self.user_persistence_service.get_user_by_username(username=username)
         if not user:
             raise UsernameNotFoundException
 
@@ -18,7 +21,8 @@ class LoginController:
         hashed_stored_password = user.password
 
         if hashed_password == hashed_stored_password:
-            token = await self.user_persistence_service.create_token(user_id=user.id)
+            # token = await self.token_persistence_service.create_token(user_id=user.id)
+            token = self.token_persistence_service.create_token(user_id=user.id)
 
             return token
 

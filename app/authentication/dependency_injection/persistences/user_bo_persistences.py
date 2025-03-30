@@ -7,4 +7,4 @@ from app.authentication.persistence.postgres.user_bo import UserBOPostgresPersis
 class UserBOPersistences(containers.DeclarativeContainer):
     memory = providers.Singleton(UserBOMemoryPersistenceService)
     postgres = providers.Singleton(UserBOPostgresPersistenceService)
-    carlemany = postgres
+    carlemany = memory

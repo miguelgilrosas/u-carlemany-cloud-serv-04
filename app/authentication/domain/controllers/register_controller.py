@@ -21,7 +21,8 @@ class RegisterController:
         )
 
         try:
-            await self.user_persistence_service.create_user(user=new_user)
+            # await self.user_persistence_service.create_user(user=new_user)
+            self.user_persistence_service.create_user(user=new_user)
 
         except UsernameAlreadyTakenException:
             raise UsernameAlreadyTakenException
