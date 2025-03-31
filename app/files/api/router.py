@@ -1,6 +1,4 @@
 from fastapi import APIRouter, Body, UploadFile, File, Header, HTTPException
-from fastapi.responses import FileResponse
-import uuid
 from pydantic import BaseModel
 
 from app.files.dependency_injection.domain.delete_file_controllers import DeleteFileControllers
@@ -13,8 +11,6 @@ from app.files.domain.bo.file_bo import FileBO
 from app.files.domain.persistences.exceptions import BadTokenException, NotFoundException
 
 router = APIRouter()
-
-files = {}
 
 
 class FileInput(BaseModel):
@@ -106,7 +102,7 @@ async def post_file_by_id(
 async def get_file_by_id(
     file_id: str,
     auth: str = Header()
-) -> FileResponse:
+) -> dict[str, str]:
     get_file_controller = GetFileControllers.carlemany()
 
     try:
@@ -118,11 +114,7 @@ async def get_file_by_id(
     except BadTokenException:
         raise HTTPException(status_code=403, detail='Forbidden')
 
-    return FileResponse(
-        path=file.path,
-        filename=file.filename,
-        media_type='application/pdf'
-    )
+    return {"path": file.path, "filename": file.filename}
 
 
 @router.delete("/{file_id}")
